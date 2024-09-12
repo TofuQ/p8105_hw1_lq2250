@@ -97,8 +97,8 @@ fac_mean = mean(pull(data_frame, fac_vec))
 
 ### Results
 
-The mean of *random sample* is **0.0929103**.<br> The mean of *logical
-vector* is **0.4**.<br> The mean of *character vector* is **NA**.<br>
+The mean of *random sample* is **0.1328662**.<br> The mean of *logical
+vector* is **0.5**.<br> The mean of *character vector* is **NA**.<br>
 The mean of *factor vector* is **NA**.
 
 ### Application of numeric function
