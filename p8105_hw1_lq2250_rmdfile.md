@@ -5,7 +5,7 @@ Lanlan_Qing
 
 # This is a Rmarkdown file of Homework1
 
-## Data of penguins package
+## Problem 1
 
 ### Loading data
 
@@ -41,7 +41,7 @@ mean_flipper_len = format(round(mean(pull(penguins, flipper_length_mm), na.rm = 
 The **size** of the the dataset is **344** rows and **8** columns.<br>
 The **mean flipper length** is **200.92**mm.
 
-## The scatterplot of flipper length(mm) v.s bill length(mm)
+### The scatterplot of flipper length(mm) v.s bill length(mm)
 
 ``` r
 library(ggplot2)
@@ -63,3 +63,48 @@ ggsave('scatterplot_flipper_vs_bill.pdf')
 
     ## Warning: Removed 2 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
+
+## Problem 2
+
+### Create the dataframe
+
+``` r
+norm_sample = rnorm(10)
+data_frame = data.frame(norm_sample,
+                        log_vec = c(norm_sample > 0),
+                        cha_vec = c('Red','Yellow','Blue','White','Pink',
+                                    'Orange','Black','Brown','Violet','Grey'),
+                        fac_vec = c('High', 'Low', "Medium", 'High', 'Low', 
+                                    'Low', 'High', 'Low', "Medium", "High")
+)
+```
+
+``` r
+num_mean = mean(pull(data_frame, norm_sample))
+log_mean = mean(pull(data_frame, log_vec))
+cha_mean = mean(pull(data_frame, cha_vec))
+```
+
+    ## Warning in mean.default(pull(data_frame, cha_vec)): argument is not numeric or
+    ## logical: returning NA
+
+``` r
+fac_mean = mean(pull(data_frame, fac_vec))
+```
+
+    ## Warning in mean.default(pull(data_frame, fac_vec)): argument is not numeric or
+    ## logical: returning NA
+
+### Results
+
+The mean of *random sample* is **0.0929103**.<br> The mean of *logical
+vector* is **0.4**.<br> The mean of *character vector* is **NA**.<br>
+The mean of *factor vector* is **NA**.
+
+### Application of numeric function
+
+``` r
+log_mean_num = as.numeric(log_mean)
+cha_mean_num = as.numeric(cha_mean)
+fac_mean_num = as.numeric(fac_mean)
+```

@@ -6,7 +6,7 @@ output: github_document
 ---
 # This is a Rmarkdown file of Homework1
 
-## Data of penguins package
+## Problem 1
 ### Loading data
 ```{r package_load}
 data("penguins", package = "palmerpenguins")
@@ -24,7 +24,7 @@ The **size** of the the dataset is
 The **mean flipper length** is 
 **`r mean_flipper_len`**mm.
 
-## The scatterplot of flipper length(mm) v.s bill length(mm)
+### The scatterplot of flipper length(mm) v.s bill length(mm)
 ```{r scatterplot_flip_vs_bill}
 library(ggplot2)
 ggplot(penguins, 
@@ -32,4 +32,39 @@ ggplot(penguins,
   geom_point(aes(color = species))
 ggsave('scatterplot_flipper_vs_bill.pdf')
 ```
+## Problem 2
 
+### Create the dataframe
+```{r dataframe}
+norm_sample = rnorm(10)
+data_frame = data.frame(norm_sample,
+                        log_vec = c(norm_sample > 0),
+                        cha_vec = c('Red','Yellow','Blue','White','Pink',
+                                    'Orange','Black','Brown','Violet','Grey'),
+                        fac_vec = c('High', 'Low', "Medium", 'High', 'Low', 
+                                    'Low', 'High', 'Low', "Medium", "High")
+)
+```
+```{r mean_calculation}
+num_mean = mean(pull(data_frame, norm_sample))
+log_mean = mean(pull(data_frame, log_vec))
+cha_mean = mean(pull(data_frame, cha_vec))
+fac_mean = mean(pull(data_frame, fac_vec))
+```
+
+### Results
+The mean of *random sample* is
+**`r num_mean`**.<br>
+The mean of *logical vector* is
+**`r log_mean`**.<br>
+The mean of *character vector* is
+**`r cha_mean`**.<br>
+The mean of *factor vector* is
+**`r fac_mean`**.
+
+### Application of numeric function
+```{r function_apply}
+log_mean_num = as.numeric(log_mean)
+cha_mean_num = as.numeric(cha_mean)
+fac_mean_num = as.numeric(fac_mean)
+```
