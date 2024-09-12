@@ -4,27 +4,32 @@ author: "Lanlan_Qing"
 date: "2024-09-12"
 output: github_document
 ---
+# This is a Rmarkdown file of Homework1
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+## Data of penguins package
+### Loading data
+```{r package_load}
+data("penguins", package = "palmerpenguins")
+```
+### Extract information
+```{r data}
+num_row = nrow(penguins)
+num_col = ncol(penguins)
+library(tidyverse)
+mean_flipper_len = format(round(mean(pull(penguins, flipper_length_mm), na.rm = TRUE),2))
+```
+### Results
+The **size** of the the dataset is 
+**`r num_row`** rows and **`r num_col`** columns.<br>
+The **mean flipper length** is 
+**`r mean_flipper_len`**mm.
+
+## The scatterplot of flipper length(mm) v.s bill length(mm)
+```{r scatterplot_flip_vs_bill}
+library(ggplot2)
+ggplot(penguins, 
+       aes(x = bill_length_mm, y = flipper_length_mm ))+
+  geom_point(aes(color = species))
+ggsave('scatterplot_flipper_vs_bill.pdf')
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
