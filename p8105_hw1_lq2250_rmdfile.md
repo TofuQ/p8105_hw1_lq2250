@@ -38,8 +38,8 @@ mean_flipper_len = format(round(mean(pull(penguins, flipper_length_mm), na.rm = 
 
 ### Results
 
-The **size** of the the dataset is **344** rows and **8** columns.<br>
-The **mean flipper length** is **200.92**mm.
+The *size* of the the dataset is **344** rows and **8** columns.<br> The
+*mean flipper length* is **200.92**mm.
 
 ### The scatterplot of flipper length(mm) v.s bill length(mm)
 
@@ -70,14 +70,16 @@ ggsave('scatterplot_flipper_vs_bill.pdf')
 
 ``` r
 norm_sample = rnorm(10)
+cha_vec = c('Red','Yellow','Red','White','Red','Yellow','Yellow','White','White','White')
+log_vec = c(norm_sample > 0)
+fac_vec = factor(cha_vec, nmax = 3)
 data_frame = data.frame(norm_sample,
-                        log_vec = c(norm_sample > 0),
-                        cha_vec = c('Red','Yellow','Blue','White','Pink',
-                                    'Orange','Black','Brown','Violet','Grey'),
-                        fac_vec = c('High', 'Low', "Medium", 'High', 'Low', 
-                                    'Low', 'High', 'Low', "Medium", "High")
-)
+                        log_vec,
+                        cha_vec,
+                        fac_vec)
 ```
+
+### Take the mean of each variable
 
 ``` r
 num_mean = mean(pull(data_frame, norm_sample))
@@ -97,9 +99,17 @@ fac_mean = mean(pull(data_frame, fac_vec))
 
 ### Results
 
-The mean of *random sample* is **0.1328662**.<br> The mean of *logical
+The mean of *random sample* is **0.3912084**.<br> The mean of *logical
 vector* is **0.5**.<br> The mean of *character vector* is **NA**.<br>
-The mean of *factor vector* is **NA**.
+The mean of *factor vector* is **NA**.<br>
+
+**Q: Try to take the mean of each variable in your dataframe. What works
+and what doesn’t?** <br> The mean of a **numeric vector** like sample
+can directly return a valid result. <br> The **logical vector** should
+return a result of NA, but it has internal numeric value where “TRUE”
+returns to 1 and “FALSE” returns to 0, so there’s still numeric mean
+calculated.<br> **Character** and **factor vectors** are composed of
+non-numeric elements, which are not applicable for mean calculation.
 
 ### Application of numeric function
 
@@ -108,3 +118,10 @@ log_mean_num = as.numeric(log_mean)
 cha_mean_num = as.numeric(cha_mean)
 fac_mean_num = as.numeric(fac_mean)
 ```
+
+**Q: What happens, and why? Does this help explain what happens when you
+try to take the mean?** <br> **Logical**: TRUE becomes 1 and FALSE
+becomes 0.<br> **Character**: Results in NA with a warning, as
+non-numeric characters can’t be directly converted to numeric. <br>
+**Factor**: The function converts factors to their internal numeric
+levels.
