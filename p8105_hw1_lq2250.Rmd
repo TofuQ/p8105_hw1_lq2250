@@ -4,3 +4,41 @@ author: "Lanlan_Qing"
 date: "2025-09-16"
 output: html_document
 ---
+
+```{r}
+# Load the library
+library(moderndive)
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+# Load the dataset as ejw_df
+data("early_january_weather")
+
+ejw_df = early_january_weather
+temp = pull(ejw_df, temp)
+```
+
+## Description:
+
+The dataset of "early_january_weather" contains `r names(ejw_df)` variables.
+
+The dataset is composed of `r nrow(ejw_df)` rows and `r ncol(ejw_df)` columns.
+
+The mean temperature is `r mean(temp)`.
+
+```{r}
+# Made the scatter plot of temp(y) vs time_hour(x)
+scatter_plot = ggplot(data = ejw_df,
+                      aes(x = time_hour,
+                          y = temp,
+                          color = humid)) +
+  geom_point() +
+  labs(title = "Temperature vs. Time",
+       x = "Date",
+       y = "Temperature",
+       color = "Humidity")
+
+ggsave("Plots/scatter_plot.jpg")
+```
