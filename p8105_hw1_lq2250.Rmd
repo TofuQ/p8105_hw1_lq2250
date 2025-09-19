@@ -5,13 +5,14 @@ date: "2025-09-16"
 output: html_document
 ---
 
-```{r}
+```{r echo = FALSE}
 # Load the library
 library(moderndive)
 library(tidyverse)
 library(ggplot2)
 ```
 
+## Problem 1
 ```{r}
 # Load the dataset as ejw_df
 data("early_january_weather")
@@ -20,13 +21,13 @@ ejw_df = early_january_weather
 temp = pull(ejw_df, temp)
 ```
 
-## Description:
+### Description:
 
-The dataset of "early_january_weather" contains `r names(ejw_df)` variables.
+The dataset of "early_january_weather" contains **`r names(ejw_df)`** variables.
 
 The dataset is composed of `r nrow(ejw_df)` rows and `r ncol(ejw_df)` columns.
 
-The mean temperature is `r mean(temp)`.
+The mean temperature is `r round(mean(temp),digits = 2)`.
 
 ```{r}
 # Made the scatter plot of temp(y) vs time_hour(x)
@@ -41,4 +42,51 @@ scatter_plot = ggplot(data = ejw_df,
        color = "Humidity")
 
 ggsave("Plots/scatter_plot.jpg")
+print(scatter_plot)
 ```
+
+### Description:
+
+The temperature and time seem to be **positively related**. While time is increasing, temperature also trends to increase.
+
+## Problem 2
+```{r}
+# Identify the variables
+sample_num = rnorm(10)
+log_vec = sample_num > 0
+cha_vec = c("boy", "girl", "boy", "girl", "girl", "boy", "girl", "boy", "boy", "boy")
+fac_vec = factor(c("low", "low", "high", "medium", "high", "high", "medium", "medium", "medium", "medium" ))
+sample_df = data.frame(sample_num,
+                     log_vec,
+                     cha_vec,
+                     fac_vec 
+                     )
+```
+
+The mean of each variable in my data frame is:
+
+ - a random sample of size 10 from a standard Normal distribution: `r round(mean(pull(sample_df, sample_num)), digits = 2)`
+ 
+ - a logical vector indicating whether elements of the sample are greater than 0: `r mean(pull(sample_df, log_vec))`
+  
+ - a character vector of length 10: `r mean(pull(sample_df, cha_vec))`
+   
+ - a factor vector of length 10, with 3 different factor “levels”: `r mean(pull(sample_df, fac_vec))`
+ 
+**Q. What works and what doesn’t?**
+
+Only the forward two variables of **random sample** and **logical vector** work. The **character factor** and **factor vector** do not.
+
+```{r echo = FALSE}
+log_mean = mean(as.numeric(pull(sample_df, log_vec)))
+cha_mean = mean(as.numeric(pull(sample_df, cha_vec)))
+fac_mean = mean(as.numeric(pull(sample_df, fac_vec)))
+```
+
+**Q: What happens, and why? Does this help explain what happens when you try to take the mean?**
+
+ - Logical: TRUE becomes 1 and FALSE becomes 0.
+ 
+ - Character: Results in NA with a warning, as non-numeric characters can't be directly converted to numeric. 
+ 
+ - Factor: The function converts factors to their internal numeric levels.
